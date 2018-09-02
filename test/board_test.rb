@@ -8,9 +8,12 @@ require_relative '../lib/board.rb'
 class BoardtTest <  Minitest::Test
   def test_it_exists
     player_board = Board.new
-    assert Board, board
+    assert Board, player_board
   end
 
-
+  def test_it_exists
+    player_board = Board.new
+    assert Board, player_board
+  end
 
 end
