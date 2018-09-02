@@ -2,6 +2,7 @@ require_relative 'ship.rb'
 require_relative 'shot.rb'
 
 class Board
+	attr_reader :layout
 
 	def initialize
 		@layout = ["a1", "a2", "a3", "a4",
@@ -24,7 +25,7 @@ class Board
 
   def place_ship(type, size)
     placed = false
-    while placed = false
+    while placed == false
       puts "The grid has A1 at the top left and D4 at the bottom right."
       puts "Enter the squares for the #{type} #{size}-unit ship:"
       text_in = gets.chomp.downcase
