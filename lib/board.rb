@@ -30,12 +30,12 @@ class Board
       puts "Enter the squares for the #{type} #{size}-unit ship:"
       text_in = gets.chomp.downcase
       position = [text_in[0] + text_in[1],text_in[3] + text_in[4]]
-      position.each do |coord|
-        if @layout.include?("#{coord}")
-          #more code here
-        else
-          puts "Bad input or coordinate is off the board."
-        end
+      if (@layout.include?("#{position[0]}") == false) || @layout.include?("#{position[1]}") == false
+        puts "Bad input or coordinate is off the board."
+      # elsif
+        #@ships.include? get the coordinates in an array
+      else placed = true
+        puts "Ship placed at #{position[0]}, #{position[1]}"
       end
     end
   end
