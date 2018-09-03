@@ -9,7 +9,7 @@ class Board
                   "b1", "b2", "b3", "b4",
                   "c1", "c2", "c3", "c4",
                   "d1", "d2", "d3", "d4"]
-    @value   =   {'a' => 1, 'b' => 2, 'c' => 3, 'd' => 4}
+    @value   =   {"a" => 1, "b" => 2, "c" => 3, "d" => 4}
 		@ships   =   []
     @shots   =   []
 	end
@@ -24,24 +24,42 @@ class Board
     puts "==========="
   end
 
+  def add_midsection(array)
+    bow = array[0]
+    stern = array[1]
+    if bow[0] == stern[0]
+      midsection = "#{bow[0]}" + "#{(bow[1].to_i - stern[1].to_i).abs}"
+    else
+      to_add = "#{@value.key((@value[bow[0]] - @value[stern[0]]).abs)}"
+      midsection = to_add + "#{bow[1]}"
+    end
+    array << midsection
+    array
+  end
+
   def place_ship(type, size)
     placed = false
     while placed == false
       puts "The grid has A1 at the top left and D4 at the bottom right."
       puts "Enter the squares for the #{type} #{size}-unit ship:"
-      text_in = gets.chomp.downcase
-      position = [text_in[0] + text_in[1],text_in[3] + text_in[4]]
+      coordinates = gets.chomp.downcase
+      position = [coordinates[0] + coordinates[1],coordinates[3] + coordinates[4]]
 
-      if (@layout.include?("#{position[0]}") == false) || @layout.include?("#{position[1]}") == false
+      if @layout.include?("#{position[0]}") == false || @layout.include?("#{position[1]}") == false
         puts "Bad input or coordinate is off the board."
-      # elsif #@ships.include? get the coordinates in an array
+
       elsif position[0][0] != position[1][0] && position[0][1].to_i != position[1][1].to_i
         puts "Ships can be laid either horizontally or vertically"
+
+      elsif (@value[position[0][0]] - @value[position[1][0]]).abs != (size - 1) && (position[0][1].to_i - position[1][1].to_i).abs != (size - 1)
+        puts "Coordinates must correspond to the first and last units of the ship."
+
+      elsif @ships.include?("#{position[0]}") == true || @ships.include?("#{position[1]}") == true
+        puts "Ships cannot overlap"
+
       else placed = true
-        #create a new ship based on the input using Ship.new
         puts "Ship placed at #{position[0]}, #{position[1]}"
       end
     end
   end
-
 end
