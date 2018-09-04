@@ -2,7 +2,7 @@ require_relative 'ship.rb'
 require_relative 'shot.rb'
 
 class Board
-	attr_reader :ships
+	attr_reader :ships, :layout
 
 	def initialize
 		@layout  =   ["a1", "a2", "a3", "a4",
@@ -36,6 +36,11 @@ class Board
     array
   end
 
+  def check_size
+    
+
+  end
+
   def place_player_ship(type, size)
     placed = false
     while placed == false
@@ -53,13 +58,13 @@ class Board
       elsif (@value[position[0][0]] - @value[position[1][0]]).abs != (size - 1) && (position[0][1].to_i - position[1][1].to_i).abs != (size - 1)
         puts "Coordinates must correspond to the first and last units of the ship."
 
-      elsif @ships.include?("#{position[0]}") == true || @ships.include?("#{position[1]}") == true
-        puts "Ships cannot overlap"
+      elsif (@ships.any? do |ship|
+        position = add_midsection(position) if size > 2
+        (position & ship.placement).empty? == false
+      end)
+      puts "Ships cannot overlap"
 
       else
-        if size > 2
-          position = add_midsection(position)
-        end
         @ships << Ship.new(type, position)
         puts "#{type} placed at #{position[0]}, #{position[1]}"
         placed = true

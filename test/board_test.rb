@@ -44,7 +44,6 @@ class BoardtTest <  Minitest::Test
     puts "player_board"
     player_board.place_player_ship("Frigate", 2)
     player_board.place_player_ship("Destroyer", 3)
-    require "pry"; binding.pry
   end
 
 end
