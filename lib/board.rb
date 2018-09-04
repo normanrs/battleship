@@ -32,14 +32,24 @@ class Board
       to_add = "#{@value.key((@value[bow[0]] - @value[stern[0]]).abs)}"
       midsection = to_add + "#{bow[1]}"
     end
+    puts "Midsection added"
     array << midsection
     array
   end
 
-  def check_size
-    
-
+  def check_size(position, size)
+    character0_span = (@value[position[0][0]] - @value[position[1][0]]).abs
+    character1_span = (position[0][1].to_i - position[1][1].to_i).abs
+    character0_span != (size - 1) && character1_span != (size - 1)
   end
+
+  def check_overlap(position, size)
+    if size > 2 then position = add_midsection(position) end
+    @ships.any? do |ship|
+      (position & ship.placement).empty? == false
+    end
+  end
+
 
   def place_player_ship(type, size)
     placed = false
@@ -55,13 +65,10 @@ class Board
       elsif position[0][0] != position[1][0] && position[0][1].to_i != position[1][1].to_i
         puts "Ships can be laid either horizontally or vertically"
 
-      elsif (@value[position[0][0]] - @value[position[1][0]]).abs != (size - 1) && (position[0][1].to_i - position[1][1].to_i).abs != (size - 1)
+      elsif check_size(position, size)
         puts "Coordinates must correspond to the first and last units of the ship."
 
-      elsif (@ships.any? do |ship|
-        position = add_midsection(position) if size > 2
-        (position & ship.placement).empty? == false
-      end)
+      elsif check_overlap(position, size)
       puts "Ships cannot overlap"
 
       else
