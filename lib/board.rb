@@ -2,7 +2,7 @@ require_relative 'ship.rb'
 require_relative 'shot.rb'
 
 class Board
-	attr_reader :layout
+	attr_reader :ships
 
 	def initialize
 		@layout  =   ["a1", "a2", "a3", "a4",
@@ -11,7 +11,6 @@ class Board
                   "d1", "d2", "d3", "d4"]
     @value   =   {"a" => 1, "b" => 2, "c" => 3, "d" => 4}
 		@ships   =   []
-    @shots   =   []
 	end
 
   def print_board
@@ -37,7 +36,7 @@ class Board
     array
   end
 
-  def place_ship(type, size)
+  def place_player_ship(type, size)
     placed = false
     while placed == false
       puts "The grid has A1 at the top left and D4 at the bottom right."
@@ -57,8 +56,13 @@ class Board
       elsif @ships.include?("#{position[0]}") == true || @ships.include?("#{position[1]}") == true
         puts "Ships cannot overlap"
 
-      else placed = true
-        puts "Ship placed at #{position[0]}, #{position[1]}"
+      else
+        if size > 2
+          position = add_midsection(position)
+        end
+        @ships << Ship.new(type, position)
+        puts "#{type} placed at #{position[0]}, #{position[1]}"
+        placed = true
       end
     end
   end

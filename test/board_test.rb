@@ -22,24 +22,29 @@ class BoardtTest <  Minitest::Test
   end
 
   def test_it_can_add_midsection_horizontally
-    board1 = Board.new
-    board1.place_ship("Destroyer", 3)
-    actual = board1.add_midsection(["a1", "a3"])
+    board_test0 = Board.new
+    puts "board_test0"
+    board_test0.place_player_ship("Destroyer", 3)
+    actual = board_test0.add_midsection(["a1", "a3"])
     expected = ["a1", "a3", "a2"]
     assert_equal expected, actual
   end
 
   def test_it_can_add_midsection_vertically
-    board2 = Board.new
-    board2.place_ship("Destroyer", 3)
-    actual = board2.add_midsection(["a1", "c1"])
+    board_test1 = Board.new
+    puts "board_test1"
+    board_test1.place_player_ship("Destroyer", 3)
+    actual = board_test1.add_midsection(["a1", "c1"])
     expected = ["a1", "c1", "b1"]
     assert_equal expected, actual
   end
 
-  def test_it_can_place_a_frigate
-    board3 = Board.new
-    board3.place_ship("Frigate", 2)
+  def test_it_can_place_player_ships
+    player_board = Board.new
+    puts "player_board"
+    player_board.place_player_ship("Frigate", 2)
+    player_board.place_player_ship("Destroyer", 3)
+    require "pry"; binding.pry
   end
 
 end
