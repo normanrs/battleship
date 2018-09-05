@@ -1,5 +1,4 @@
 require_relative 'ship.rb'
-require_relative 'shot.rb'
 
 class Board
 	attr_reader :ships, :layout
@@ -13,28 +12,22 @@ class Board
 		@ships   =   []
 	end
 
-  def print_board
-    puts "==========="
-    puts ".  1 2 3 4"
-    puts "A"
-    puts "B"
-    puts "C"
-    puts "D"
-    puts "==========="
-  end
-
   def add_midsection(array)
     bow = array[0]
     stern = array[1]
     if bow[0] == stern[0]
-      midsection = "#{bow[0]}" + "#{(bow[1].to_i - stern[1].to_i).abs}"
+      midsection = "#{bow[0]}" + "#{(bow[1].to_i + stern[1].to_i) / 2}"
     else
-      to_add = "#{@value.key((@value[bow[0]] - @value[stern[0]]).abs)}"
-      midsection = to_add + "#{bow[1]}"
+      value_ref = (@value[bow[0]] + @value[stern[0]]) / 2
+      key = "#{@value.key(value_ref)}"
+      midsection = key + "#{bow[1]}"
     end
-    puts "Midsection added"
     array << midsection
     array
+  end
+
+  def check_diagonal(position)
+    position[0][0] != position[1][0] && position[0][1].to_i != position[1][1].to_i
   end
 
   def check_size(position, size)
@@ -44,12 +37,11 @@ class Board
   end
 
   def check_overlap(position, size)
-    if size > 2 then position = add_midsection(position) end
+    position = add_midsection(position) if size > 2
     @ships.any? do |ship|
       (position & ship.placement).empty? == false
     end
   end
-
 
   def place_player_ship(type, size)
     placed = false
@@ -62,7 +54,7 @@ class Board
       if @layout.include?("#{position[0]}") == false || @layout.include?("#{position[1]}") == false
         puts "Bad input or coordinate is off the board."
 
-      elsif position[0][0] != position[1][0] && position[0][1].to_i != position[1][1].to_i
+      elsif check_diagonal(position)
         puts "Ships can be laid either horizontally or vertically"
 
       elsif check_size(position, size)
@@ -74,6 +66,24 @@ class Board
       else
         @ships << Ship.new(type, position)
         puts "#{type} placed at #{position[0]}, #{position[1]}"
+        placed = true
+      end
+    end
+  end
+
+  def place_computer_ship(type, size)
+    placed = false
+    while placed == false
+      position = @layout.sample(2)
+
+      if check_diagonal(position)
+
+      elsif check_size(position, size)
+
+      elsif check_overlap(position, size)
+
+      else
+        @ships << Ship.new(type, position)
         placed = true
       end
     end

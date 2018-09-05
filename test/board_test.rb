@@ -21,25 +21,51 @@ class BoardtTest <  Minitest::Test
     assert_equal expected, actual
   end
 
-  def test_it_can_add_midsection_horizontally
-    board_test0 = Board.new
-    actual = board_test0.add_midsection(["a1", "a3"])
-    expected = ["a1", "a3", "a2"]
-    assert_equal expected, actual
-  end
-
   def test_it_can_add_midsection_vertically
-    board_test1 = Board.new
-    actual = board_test1.add_midsection(["a1", "c1"])
-    expected = ["a1", "c1", "b1"]
+    board_test = Board.new
+    actual = board_test.add_midsection(["b4", "d4"])
+    expected = ["b4", "d4", "c4"]
     assert_equal expected, actual
   end
 
-  def test_it_can_place_player_ships
+  def test_it_can_add_midsection_horizontally
+    board_test = Board.new
+    actual = board_test.add_midsection(["c2", "c4"])
+    expected = ["c2", "c4", "c3"]
+    assert_equal expected, actual
+  end
+
+  def test_it_checks_diagonal
+    board_test = Board.new
+    actual = board_test.check_diagonal(["a1", "b2"])
+    expected = true
+    assert_equal expected, actual
+  end
+
+  def test_it_checks_size
+    board_test = Board.new
+    actual = board_test.check_size(["a1", "a4"], 2)
+    expected = true
+    assert_equal expected, actual
+  end
+
+  def test_it_can_place_player_ships_avoiding_overlap
     player_board = Board.new
     player_board.place_player_ship("Frigate", 2)
     player_board.place_player_ship("Destroyer", 3)
-    puts player_board.ships
+    actual = player_board.ships.map { |ship| ship.class }
+    expected = [Ship, Ship]
+    assert_equal expected, actual
   end
+
+  def test_it_can_place_computer_ships_avoiding_overlap
+
+    computer_board = Board.new
+    computer_board.place_computer_ship("Frigate", 2)
+    computer_board.place_computer_ship("Destroyer", 3)
+    actual = computer_board.ships.map { |ship| ship.class }
+    expected = [Ship, Ship]
+    assert_equal expected, actual
+   end
 
 end
