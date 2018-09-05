@@ -1,21 +1,22 @@
 require_relative 'board.rb'
+require_relative 'shot.rb'
 class Battleship
-	attr_reader :boards
+	attr_reader :boards, :shots
 
 	def initialize
 		@boards = []
+    @shots = []
 	end
 
   def play
     system 'clear'
     puts "Welcome to BATTLESHIP"
     game_over = false
-    parameters = ["p", "i", "q"]
     while game_over == false
       puts "Would you like to (p)lay, read the (i)nstructions, or (q)uit?"
       start = gets.chomp.downcase
 
-      if parameters.include?(start) == false
+      if ["p", "i", "q"].include?(start) == false
         puts 'Bad input. Enter p, i, or q.'
 
       elsif start == "q"
@@ -30,11 +31,10 @@ class Battleship
       elsif start == "p"
         create_computer_board
         create_player_board
-        require "pry"; binding.pry
-
+        shoot(0)
+        display_map(0)
 
       end
-
     end
   end
 
@@ -54,8 +54,8 @@ class Battleship
     @boards << player_board
   end
 
-  def display_map(player)
-    spaces
+  def display_map(player_num)
+    spaces(player)
     puts "==========="
     puts ".  1 2 3 4"
     puts "A #{spaces[0]} #{spaces[1]} #{spaces[2]} #{spaces[3]}"
@@ -65,8 +65,8 @@ class Battleship
     puts "==========="
   end
 
-  def spaces
-    board.layout.map do |space|
+  def spaces(player_num)
+    boards[player_num].layout.map do |space|
       if hits.include?(space)
         "H"
       elsif misses.include?(space)
@@ -80,12 +80,23 @@ class Battleship
 
   end
 
-  def player_shot
-
-  end
-
-  def computer_shot
-
+  def shoot(player_num)
+    shot = false
+    while shot == false
+      puts "Enter your shot coordinate:"
+      input = gets.chomp.downcase
+      position = (input[0] + input[1])
+      require "pry"; binding.pry
+      if (boards[player_num].layout.include?(position) == false)
+        puts "Bad input or coordinate is off the board."
+      elsif (boards[player_num].shots.include?(position))
+        puts "You have already fired on that position."
+      else
+        puts "You took a shot at #{position}"
+        boards[player_num].shots << position
+        shot = true
+      end
+    end
   end
 
   def end_game

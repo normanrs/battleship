@@ -25,9 +25,9 @@ class ShotTest <  Minitest::Test
     assert_equal expected, actual
   end
 
-  def test_it_can_register_hit
-    shot01 = Shot.new("a1")
-    actual = shot01.register_hit
+  def test_it_can_be_a_hit
+    shot01 = Shot.new("a1", true)
+    actual = shot01.hit
     expected = true
     assert_equal expected, actual
   end

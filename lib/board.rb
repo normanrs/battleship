@@ -1,16 +1,25 @@
 require_relative 'ship.rb'
 
 class Board
-	attr_reader :player, :ships, :layout
+	attr_accessor :player,
+								:ships,
+								:shots
 
 	def initialize(player = "computer")
 		@player = player
-		@layout  =   ["a1", "a2", "a3", "a4",
-                  "b1", "b2", "b3", "b4",
-                  "c1", "c2", "c3", "c4",
-                  "d1", "d2", "d3", "d4"]
-    @value   =   {"a" => 1, "b" => 2, "c" => 3, "d" => 4}
-		@ships   =   []
+		@ships  = []
+		@shots 	=	[]
+	end
+
+	def layout
+		["a1", "a2", "a3", "a4",
+		"b1", "b2", "b3", "b4",
+		"c1", "c2", "c3", "c4",
+		"d1", "d2", "d3", "d4"]
+	end
+
+	def value
+		{"a" => 1, "b" => 2, "c" => 3, "d" => 4}
 	end
 
   def add_midsection(array)
@@ -19,8 +28,8 @@ class Board
     if bow[0] == stern[0]
       midsection = "#{bow[0]}" + "#{(bow[1].to_i + stern[1].to_i) / 2}"
     else
-      value_ref = (@value[bow[0]] + @value[stern[0]]) / 2
-      key = "#{@value.key(value_ref)}"
+      value_ref = (value[bow[0]] + value[stern[0]]) / 2
+      key = "#{value.key(value_ref)}"
       midsection = key + "#{bow[1]}"
     end
     array << midsection
@@ -32,7 +41,7 @@ class Board
   end
 
   def check_size(position, size)
-    character0_span = (@value[position[0][0]] - @value[position[1][0]]).abs
+    character0_span = (value[position[0][0]] - value[position[1][0]]).abs
     character1_span = (position[0][1].to_i - position[1][1].to_i).abs
     character0_span != (size - 1) && character1_span != (size - 1)
   end
@@ -52,7 +61,7 @@ class Board
       coordinates = gets.chomp.downcase
       position = [coordinates[0] + coordinates[1],coordinates[3] + coordinates[4]]
 
-      if @layout.include?("#{position[0]}") == false || @layout.include?("#{position[1]}") == false
+      if layout.include?("#{position[0]}") == false || layout.include?("#{position[1]}") == false
         puts "Bad input or coordinate is off the board."
 
       elsif check_diagonal(position)
@@ -75,14 +84,10 @@ class Board
   def place_computer_ship(type, size)
     placed = false
     while placed == false
-      position = @layout.sample(2)
-
+      position = layout.sample(2)
       if check_diagonal(position)
-
       elsif check_size(position, size)
-
       elsif check_overlap(position, size)
-
       else
         @ships << Ship.new(type, position)
         placed = true

@@ -1,13 +1,9 @@
 class Shot
-	attr_reader :coordinate, :hit
+	attr_accessor :coordinate, :hit
 
-	def initialize(coordinate)
+	def initialize(coordinate, hit = false)
 		@coordinate = coordinate
-		@hit = false
+		@hit = hit
 	end
-
-  def register_hit
-    @hit ^= true
-  end
 
 end
