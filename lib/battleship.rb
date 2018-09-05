@@ -1,10 +1,8 @@
 require_relative 'board.rb'
-
 class Battleship
-
   def play
+    system 'clear'
     puts "Welcome to BATTLESHIP"
-    puts ""
     game_over = false
     parameters = ["p", "i", "q"]
     while game_over == false
@@ -19,11 +17,9 @@ class Battleship
         exit
 
       elsif start == "i"
-        puts ""
-        puts "This version of BATTLESHIP pits you against the computer in a race to sink"
-        puts "opponent ships. Ships will be placed on 4-space x 4-space grid, then you"
-        puts "each take shots at the others' ships. The first player to sink their"
-        puts "opponents' ships wins. Ready to play?"
+        puts "You are in a race against the computer to sink each other's fleet."
+        puts "Ships are placed on a 4 x 4 grid, then shots are taken. The first"
+        puts "one to sink all opponent ships wins. Ready to play?"
 
       elsif start == "p"
         create_computer_board
@@ -39,10 +35,8 @@ class Battleship
     computer_board = Board.new
     computer_board.place_computer_ship("Frigate", 2)
     computer_board.place_computer_ship("Destroyer", 3)
-    puts "I have laid out my ships on the grid."
-    puts "You now need to layout your two ships."
-    puts "The first is a two-unit frigate, the"
-    puts "second is a three-unit destroyer."
+    puts "I have laid out my ships on the grid. You now need to layout"
+    puts "your fleet: first, a 2-unit frigate, then a 3-unit destroyer."
   end
 
   def create_player_board
@@ -50,6 +44,13 @@ class Battleship
   end
 
   def display_map(player)
+    puts "==========="
+    puts ".  1 2 3 4"
+    puts "A #{}"
+    puts "B"
+    puts "C"
+    puts "D"
+    puts "==========="
 
   end
 
@@ -65,5 +66,4 @@ class Battleship
 
   end
 end
-game = Battleship.new
-game.play
+Battleship.new.play

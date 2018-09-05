@@ -39,20 +39,4 @@ class ShipTest  <  Minitest::Test
     assert_equal expected, actual
   end
 
-  # def print_board
-  #   puts "==========="
-  #   puts ".  1 2 3 4"
-  #   puts "A"
-  #   puts "B"
-  #   puts "C"
-  #   puts "D"
-  #   puts "==========="
-  # end
-
-  # puts "I have laid out my ships on the grid."
-  # puts "You now need to layout your two ships"
-  # puts "The first is two units long and the"
-  # puts "second is three units long."
-  #
-
 end
