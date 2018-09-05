@@ -59,7 +59,6 @@ class BoardtTest <  Minitest::Test
   end
 
   def test_it_can_place_computer_ships_avoiding_overlap
-
     computer_board = Board.new
     computer_board.place_computer_ship("Frigate", 2)
     computer_board.place_computer_ship("Destroyer", 3)
