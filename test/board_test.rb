@@ -50,7 +50,7 @@ class BoardtTest <  Minitest::Test
   end
 
   def test_it_can_place_player_ships_avoiding_overlap
-    player_board = Board.new
+    player_board = Board.new("Human")
     player_board.place_player_ship("Frigate", 2)
     player_board.place_player_ship("Destroyer", 3)
     actual = player_board.ships.map { |ship| ship.class }
