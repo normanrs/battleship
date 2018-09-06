@@ -38,23 +38,43 @@ class Game
 	end
 
   def shoot_at_computer(coordinate)
-			if (all_shots(@shots_at_computer).include?(coordinate))
-	       puts "You have already fired on that position."
-	    elsif fleet_positions(@boards[0].ships).include?(coordinate)
-				shot = Shot.new(coordinate, true)
-				@shots_at_computer << shot
-				puts "Your shot at #{coordinate} is a hit!!"
-				shot_logged = true
-			else
-				shot = Shot.new(coordinate, false)
-				@shots_at_computer << shot
-	      puts "Your shot at #{coordinate} missed..."
-				shot_logged = true
+		if (all_shots(@shots_at_computer).include?(coordinate))
+       puts "You have already fired on that position."
+    elsif fleet_positions(@boards[0].ships).include?(coordinate)
+			shot = Shot.new(coordinate, true)
+			@shots_at_computer << shot
+			puts "Your shot at #{coordinate} is a hit!!"
+			@boards[0].ships.each do |ship|
+				if (ship.placement - all_shots(@shots_at_computer)).empty?
+					ship.sink
+					puts "You sank the computer's #{ship.name}!!"
+				end
 			end
+		else
+			shot = Shot.new(coordinate, false)
+			@shots_at_computer << shot
+      puts "Your shot at #{coordinate} missed..."
+		end
 	end
 
 	def shoot_at_human
-
+		available = @boards[1].layout - all_shots(@shots_at_player)
+		coordinate = available.sample
+		if fleet_positions(@boards[1].ships).include?(coordinate)
+			shot = Shot.new(coordinate, true)
+			@shots_at_player << shot
+			puts "Computer's shot at #{coordinate} is a hit!!"
+			@boards[1].ships.each do |ship|
+				if (ship.placement - all_shots(@shots_at_player)).empty?
+					ship.sink
+					puts "The computer sunk your #{ship.name}!!"
+				end
+			end
+		else
+			shot = Shot.new(coordinate, false)
+			@shots_at_player << shot
+      puts "Computer's shot at #{coordinate} missed..."
+		end
 	end
 
 end

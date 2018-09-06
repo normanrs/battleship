@@ -10,7 +10,7 @@ class Ship
 	end
 
   def sink
-    @afloat ^= true
+    @afloat = false
   end
 
 end

@@ -20,7 +20,6 @@ class GameTest < Minitest::Test
   end
 
   def test_it_creates_player_board
-    skip
     game = Game.new
     game.create_computer_board
     game.create_player_board
@@ -41,7 +40,6 @@ class GameTest < Minitest::Test
   end
 
   def test_it_finds_other_shots
-    skip
     game = Game.new
     game.create_computer_board
     game.create_player_board
@@ -66,5 +64,18 @@ class GameTest < Minitest::Test
     assert_equal expected, actual
   end
 
+  def test_it_shoots_at_human
+    game = Game.new
+    game.create_computer_board
+    game.create_player_board
+    game.shoot_at_human
+    game.shoot_at_human
+    game.shoot_at_human
+    game.shoot_at_human
+    game.shoot_at_human
+    actual = game.shots_at_player.count
+    expected = 5
+    assert_equal expected, actual
+  end
 
 end

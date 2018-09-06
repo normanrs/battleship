@@ -1,12 +1,5 @@
-require_relative 'board.rb'
-require_relative 'shot.rb'
+require_relative 'game.rb'
 class Battleship
-	attr_reader :boards, :shots
-
-	def initialize
-		@boards = []
-    @shots = []
-	end
 
   def play
     system 'clear'
@@ -29,29 +22,13 @@ class Battleship
         puts "one to sink all opponent ships wins. Ready to play?"
 
       elsif start == "p"
-        create_computer_board
-        create_player_board
-        shoot(0)
+        game.create_computer_board
+        game.create_player_board
+        game.shoot_at_computer
         display_map(0)
 
       end
     end
-  end
-
-  def create_computer_board
-    computer_board = Board.new
-    computer_board.place_computer_ship("Frigate", 2)
-    computer_board.place_computer_ship("Destroyer", 3)
-    @boards << computer_board
-    puts "I have laid out my ships on the grid. You now need to layout"
-    puts "your fleet: first, a 2-unit frigate, then a 3-unit destroyer."
-  end
-
-  def create_player_board
-    player_board = Board.new("Human")
-    player_board.place_player_ship("Frigate", 2)
-    player_board.place_player_ship("Destroyer", 3)
-    @boards << player_board
   end
 
   def display_map(player_num)
@@ -80,28 +57,8 @@ class Battleship
 
   end
 
-  def shoot(player_num)
-    fired = false
-    while fired == false
-      puts "Enter your shot coordinate:"
-      input = gets.chomp.downcase
-      position = (input[0] + input[1])
-      require "pry"; binding.pry
-      if (boards[player_num].layout.include?(position) == false)
-        puts "Bad input or coordinate is off the board."
-      elsif (boards[player_num].shots.include?(position))
-        puts "You have already fired on that position."
-      else
-        puts "You took a shot at #{position}"
-        @shots << shot
-        fired = true
-      end
-      require "pry"; binding.pry
-    end
-  end
-
   def end_game
-    
+
   end
 end
 Battleship.new.play
