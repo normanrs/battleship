@@ -26,16 +26,20 @@ class Game
   end
 
 	def fleet_positions(fleet)
-		fleet.map do |ship|
+		fleet.flat_map do |ship|
 			ship.placement
 		end
 	end
 
+	def all_shots(shots)
+		shots.flat_map do |shot|
+			shot.coordinate
+		end
+	end
+
   def shoot_at_computer(coordinate)
-		shot_logged = false
-		while shot_logged == false
-			if (@shots_at_computer.include?(coordinate))
-	        puts "You have already fired on that position."
+			if (all_shots(@shots_at_computer).include?(coordinate))
+	       puts "You have already fired on that position."
 	    elsif fleet_positions(@boards[0].ships).include?(coordinate)
 				shot = Shot.new(coordinate, true)
 				@shots_at_computer << shot
@@ -47,7 +51,10 @@ class Game
 	      puts "Your shot at #{coordinate} missed..."
 				shot_logged = true
 			end
-		end
-  end
+	end
+
+	def shoot_at_human
+
+	end
 
 end

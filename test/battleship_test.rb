@@ -10,4 +10,12 @@ class BattleshipTest < Minitest::Test
 
   end
 
+
+  # def play
+  #   create_computer_board
+  #   create_player_board
+  #   shoot(0)
+  #   display_map(0)
+  # end
+
 end

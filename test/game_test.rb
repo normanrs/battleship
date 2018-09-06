@@ -29,23 +29,42 @@ class GameTest < Minitest::Test
     assert_equal expected, actual
   end
 
-  def test_it_logs_a_shot
+  def test_it_shoots_at_computer
+    skip
     game = Game.new
     game.create_computer_board
     game.create_player_board
     game.shoot_at_computer("a1")
     actual = game.shots_at_computer.count
     expected = 1
-    require "pry"; binding.pry
     assert_equal expected, actual
-
   end
-  # def play
-  #   create_computer_board
-  #   create_player_board
-  #   shoot(0)
-  #   display_map(0)
-  # end
+
+  def test_it_finds_other_shots
+    skip
+    game = Game.new
+    game.create_computer_board
+    game.create_player_board
+    game.shoot_at_computer("a1")
+    game.shoot_at_computer("a1")
+    actual = game.shots_at_computer.count
+    expected = 1
+    assert_equal expected, actual
+  end
+
+  def test_it_holds_a_bunch_of_shots
+    game = Game.new
+    game.create_computer_board
+    game.create_player_board
+    game.shoot_at_computer("a1")
+    game.shoot_at_computer("a2")
+    game.shoot_at_computer("a3")
+    game.shoot_at_computer("a4")
+    game.shoot_at_computer("b1")
+    actual = game.shots_at_computer.count
+    expected = 5
+    assert_equal expected, actual
+  end
 
 
 end
