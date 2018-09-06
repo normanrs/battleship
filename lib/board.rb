@@ -2,13 +2,11 @@ require_relative 'ship.rb'
 
 class Board
 	attr_accessor :player,
-								:ships,
-								:shots
+								:ships
 
 	def initialize(player = "computer")
 		@player = player
 		@ships  = []
-		@shots 	=	[]
 	end
 
 	def layout
@@ -94,4 +92,5 @@ class Board
       end
     end
   end
+
 end

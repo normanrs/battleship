@@ -55,7 +55,7 @@ class Battleship
   end
 
   def display_map(player_num)
-    spaces(player)
+    spaces(player_num)
     puts "==========="
     puts ".  1 2 3 4"
     puts "A #{spaces[0]} #{spaces[1]} #{spaces[2]} #{spaces[3]}"
@@ -81,8 +81,8 @@ class Battleship
   end
 
   def shoot(player_num)
-    shot = false
-    while shot == false
+    fired = false
+    while fired == false
       puts "Enter your shot coordinate:"
       input = gets.chomp.downcase
       position = (input[0] + input[1])
@@ -93,14 +93,15 @@ class Battleship
         puts "You have already fired on that position."
       else
         puts "You took a shot at #{position}"
-        boards[player_num].shots << position
-        shot = true
+        @shots << shot
+        fired = true
       end
+      require "pry"; binding.pry
     end
   end
 
   def end_game
-
+    
   end
 end
 Battleship.new.play

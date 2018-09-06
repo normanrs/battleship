@@ -1,7 +1,7 @@
 class Shot
-	attr_accessor :coordinate, :hit
+	attr_reader :coordinate, :hit
 
-	def initialize(coordinate, hit = false)
+	def initialize(coordinate, hit)
 		@coordinate = coordinate
 		@hit = hit
 	end

@@ -1,5 +1,5 @@
 class Ship
-	attr_reader :name,
+	attr_accessor :name,
 							:placement,
               :afloat
 
